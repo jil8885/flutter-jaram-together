@@ -1,4 +1,4 @@
-# flutter_jaram_together
+# flutter-jaram-together
 
 A new Flutter project.
 
