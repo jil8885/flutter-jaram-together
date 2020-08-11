@@ -25,3 +25,5 @@ BoxShadow wBoxshadow = BoxShadow(
   blurRadius: 1,
   offset: Offset(0, 2), // changes position of shadow
 );
+
+const kopacity = 0.0;

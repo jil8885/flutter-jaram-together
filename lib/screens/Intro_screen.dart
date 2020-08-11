@@ -9,9 +9,9 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  double opacity = 0.0;
-  double opacity2 = 0.0;
-  double opacity3 = 0.0;
+  double opacity = kopacity;
+  double opacity2 = kopacity;
+  double opacity3 = kopacity;
   @override
   void initState() {
     super.initState();
