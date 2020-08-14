@@ -1,36 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jaram_together/screens/Intro_screen.dart';
+import 'package:flutter_jaram_together/services/auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 
-const users = const {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-  'a@gmail.com': '12345',
-};
+// const users = const {
+//   'dribbble@gmail.com': '12345',
+//   'hunter@gmail.com': 'hunter',
+//   'a@gmail.com': '12345',
+// };
 
 final email = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
 class LoginScreen extends StatelessWidget {
   Duration get loginTime => Duration(milliseconds: 2250);
 
-  Future<String> _authUser(LoginData data) {
-    print('Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'Username not exists';
+  Future<String> _loginUser(LoginData data) {
+    AuthHelper authHelper = AuthHelper(email: data.name);
+    return Future.delayed(loginTime).then((_) async {
+      final result = await authHelper.login(data.password);
+      if (result == 'ERROR_INVALID_EMAIL') {
+        return '이메일이 올바르지 않아요';
+      } else if (result == 'ERROR_USER_NOT_FOUND') {
+        return '이메일 혹은 비밀번호가 일치하지 않아요';
+      } else if (result == 'ERROR_WRONG_PASSWORD') {
+        return '이메일 혹은 비밀번호가 일치하지 않아요';
+      } else if (result == 'ERROR') {
+        return '알 수 없는 오류가 발생했어요.';
       }
-      if (users[data.name] != data.password) {
-        return 'Password does not match';
+      return null;
+    });
+  }
+
+  Future<String> _registerUser(LoginData data) {
+    AuthHelper authHelper = AuthHelper(email: data.name);
+    return Future.delayed(loginTime).then((_) async {
+      final result = await authHelper.registration(data.password);
+      if (result == 'ERROR_INVALID_EMAIL') {
+        return '이메일이 올바르지 않아요';
+      } else if (result == 'ERROR_EMAIL_ALREADY_IN_USE') {
+        return '이 이메일은 이미 사용 중 이예요';
+      } else if (result == 'ERROR_WEAK_PASSWORD') {
+        return '비밀번호가 너무 짧아요 (6자리 이상)';
+      } else if (result == 'ERROR') {
+        return '알 수 없는 오류가 발생했어요.';
       }
       return null;
     });
   }
 
   Future<String> _recoverPassword(String name) {
-    print('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'Username not exists';
+    AuthHelper authHelper = AuthHelper(email: name);
+    return Future.delayed(loginTime).then((_) async {
+      final result = await authHelper.resetPassword();
+      if (result == 'ERROR_INVALID_EMAIL') {
+        return '이메일이 올바르지 않아요';
+      } else if (result == 'ERROR_USER_NOT_FOUND') {
+        return '이 이메일으로는 가입이 되지 않았어요';
+      } else if (result == 'ERROR') {
+        return '알 수 없는 오류가 발생했어요.';
       }
       return null;
     });
@@ -41,13 +68,14 @@ class LoginScreen extends StatelessWidget {
     return FlutterLogin(
       title: '너팟내팟',
       // logo: 'assets/images/jaram-logo.png',
-      onLogin: _authUser,
-      onSignup: _authUser,
+      onLogin: _loginUser,
+      onSignup: _registerUser,
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => IntroScreen(),
         ));
       },
+
       onRecoverPassword: _recoverPassword,
       theme: LoginTheme(
         beforeHeroFontSize: 24.0,
@@ -81,8 +109,8 @@ final FormFieldValidator<String> customEmailValidator = (value) {
 };
 
 final FormFieldValidator<String> customPasswordValidator = (value) {
-  if (value.isEmpty || value.length <= 2) {
-    return '비밀번호가 너무 짧아요.';
+  if (value.isEmpty || value.length <= 5) {
+    return '비밀번호가 너무 짧아요 (6자리 이상)';
   }
   return null;
 };
