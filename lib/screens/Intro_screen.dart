@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jaram_together/components/fade_route.dart';
-import 'package:flutter_jaram_together/screens/home_screen.dart';
+import 'package:flutter_jaram_together/screens/newbie_setting_screen.dart';
 import 'package:flutter_jaram_together/style/styles.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -9,9 +9,9 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  double opacity = kopacity;
-  double opacity2 = kopacity;
-  double opacity3 = kopacity;
+  double opacity = wopacity;
+  double opacity2 = wopacity;
+  double opacity3 = wopacity;
   @override
   void initState() {
     super.initState();
@@ -39,7 +39,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kbannaColor,
+      backgroundColor: wmintCream,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -51,7 +51,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 duration: Duration(seconds: 1),
                 child: Text(
                   '안녕하세요!',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
               SizedBox(
@@ -62,7 +62,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 duration: Duration(seconds: 1),
                 child: Text(
                   '당신의 팟을 찾아줄 너팟내팟 이예요.',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
               Spacer(),
@@ -74,7 +74,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     duration: Duration(seconds: 1),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(context, FadeRoute(page: HomeScreen()));
+                        Navigator.pushReplacement(context, FadeRoute(page: NewBieSettingScreen()));
                       },
                       child: Container(
                         padding: EdgeInsets.all(16.0),
@@ -83,7 +83,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           style: TextStyle(fontWeight: FontWeight.w400),
                         ),
                         decoration: BoxDecoration(
-                          color: kdarkBlueColor,
+                          color: wskyBlueCrystal,
                           borderRadius: BorderRadius.circular(25.0),
                           boxShadow: [wBoxshadow],
                         ),

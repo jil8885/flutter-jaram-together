@@ -10,7 +10,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kdarkBlueColor,
+      backgroundColor: wdarkBlueColor,
       body: SafeArea(
         child: Center(
           child: Text('HOME'),
