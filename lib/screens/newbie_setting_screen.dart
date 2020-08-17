@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jaram_together/components/curved_list_item.dart';
 import 'package:flutter_jaram_together/components/custom_text_field.dart';
 import 'package:flutter_jaram_together/style/styles.dart';
-
-import '../components/fade_route.dart';
-import '../style/styles.dart';
+import 'package:flutter_jaram_together/components/fade_route.dart';
 
 class NewBieSettingScreen extends StatefulWidget {
   @override

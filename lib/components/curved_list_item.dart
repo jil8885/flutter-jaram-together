@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../style/styles.dart';
-import '../style/styles.dart';
+import 'package:flutter_jaram_together/style/styles.dart';
 
 class CurvedListItem extends StatelessWidget {
   const CurvedListItem({
