@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jaram_together/screens/Intro_screen.dart';
 import 'package:flutter_jaram_together/screens/login_screen.dart';
 import 'package:flutter_jaram_together/style/styles.dart';
 
@@ -15,9 +14,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '너팟내팟',
       theme: ThemeData(
-        primarySwatch: mdarkBlue,
-        cardColor: kbannaColor,
-        accentColor: kdarkBlueColor,
+        primarySwatch: wskyBlueCrystalM,
+        cardColor: wmintCream,
+        accentColor: wskyBlueCrystal,
         cursorColor: Colors.brown,
         textTheme: TextTheme(
           display2: TextStyle(
