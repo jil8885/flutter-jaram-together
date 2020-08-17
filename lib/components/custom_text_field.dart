@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   CustomTextField({
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.maxLength,
     this.counterText,
+    this.inputFormatters,
   });
   final GlobalKey<FormState> formKey;
   final TextInputType textInputType;
@@ -31,11 +33,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final int maxLength;
   final String counterText;
+  final List<TextInputFormatter> inputFormatters;
   @override
   Widget build(BuildContext context) {
     return Form(
       autovalidate: false,
       child: TextFormField(
+        inputFormatters: inputFormatters,
         controller: controller,
         cursorColor: cursorColor,
         style: inputStyle,
