@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jaram_together/screens/login_screen.dart';
+import 'package:flutter_jaram_together/screens/welcome_screen.dart';
 import 'package:flutter_jaram_together/style/styles.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

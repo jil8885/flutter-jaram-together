@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jaram_together/components/fade_route.dart';
 import 'package:flutter_jaram_together/screens/Intro_screen.dart';
+import 'package:flutter_jaram_together/screens/home_screen.dart';
 import 'package:flutter_jaram_together/services/auth.dart';
+import 'package:flutter_jaram_together/services/database.dart';
+import 'package:flutter_jaram_together/services/sharedpref.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 // const users = const {
@@ -11,7 +15,14 @@ import 'package:flutter_login/flutter_login.dart';
 
 final email = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  Sharedpref sharedpref = Sharedpref();
+  bool isLogin = false;
   Duration get loginTime => Duration(milliseconds: 2250);
 
   Future<String> _loginUser(LoginData data) {
@@ -27,6 +38,9 @@ class LoginScreen extends StatelessWidget {
       } else if (result == 'ERROR') {
         return '알 수 없는 오류가 발생했어요.';
       }
+
+      sharedpref.updateStringSetting("user_email", data.name);
+      // sharedpref.updateStringListSetting("user_groupRole", ["1", "admin"]); test value
       return null;
     });
   }
@@ -35,6 +49,7 @@ class LoginScreen extends StatelessWidget {
     AuthHelper authHelper = AuthHelper(email: data.name);
     return Future.delayed(loginTime).then((_) async {
       final result = await authHelper.registration(data.password);
+
       if (result == 'ERROR_INVALID_EMAIL') {
         return '이메일이 올바르지 않아요';
       } else if (result == 'ERROR_EMAIL_ALREADY_IN_USE') {
@@ -44,6 +59,7 @@ class LoginScreen extends StatelessWidget {
       } else if (result == 'ERROR') {
         return '알 수 없는 오류가 발생했어요.';
       }
+      sharedpref.updateStringSetting("user_email", data.name);
       return null;
     });
   }
@@ -70,10 +86,24 @@ class LoginScreen extends StatelessWidget {
       // logo: 'assets/images/jaram-logo.png',
       onLogin: _loginUser,
       onSignup: _registerUser,
-      onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => IntroScreen(),
-        ));
+
+      onSubmitAnimationCompleted: () async {
+        final _userUid = await sharedpref.getStringSetting("user_uid");
+        if (_userUid == "") {
+          AuthHelper authHelper = AuthHelper();
+          final _user = await authHelper.getCurrentuser();
+          DataBaseHelper dataBaseHelper = DataBaseHelper();
+          await sharedpref.updateStringSetting("user_uid", _user.uid);
+          final _userData = await dataBaseHelper.getUserData(_user.uid);
+          if (_userData.data == null) {
+            Navigator.pushReplacement(context, FadeRoute(page: IntroScreen()));
+          } else {
+            await sharedpref.updateStringSetting("user_nickName", _userData.data["nickName"]);
+            await sharedpref.updateStringSetting("user_groupRole", _userData.data["groupRole"]);
+            await sharedpref.updateStringSetting("user_podRole", _userData.data["podRole"]);
+            Navigator.pushReplacement(context, FadeRoute(page: HomeScreen()));
+          }
+        }
       },
 
       onRecoverPassword: _recoverPassword,

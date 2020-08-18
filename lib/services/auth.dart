@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 
 class AuthHelper {
   AuthHelper({
@@ -83,6 +82,14 @@ class AuthHelper {
       final user = await _auth.currentUser();
       _loggedInUser = user;
       return _loggedInUser;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future outCurrentuser() async {
+    try {
+      await _auth.signOut();
     } catch (e) {
       print(e);
     }
