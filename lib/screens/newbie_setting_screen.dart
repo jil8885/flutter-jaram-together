@@ -7,9 +7,7 @@ import 'package:flutter_jaram_together/services/database.dart';
 import 'package:flutter_jaram_together/services/sharedpref.dart';
 import 'package:flutter_jaram_together/services/user.dart';
 import 'package:flutter_jaram_together/style/styles.dart';
-
-import '../components/fade_route.dart';
-import '../style/styles.dart';
+import 'package:flutter_jaram_together/components/fade_route.dart';
 
 class NewBieSettingScreen extends StatefulWidget {
   @override
